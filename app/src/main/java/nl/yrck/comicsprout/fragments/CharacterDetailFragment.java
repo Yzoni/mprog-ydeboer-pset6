@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import nl.yrck.comicsprout.DetailActivity;
 import nl.yrck.comicsprout.R;
@@ -65,6 +66,12 @@ public class CharacterDetailFragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<CharacterWrapper> loader, CharacterWrapper data) {
+        if (data == null) {
+            Toast.makeText(getActivity(), "No data received",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         try {
             description.setText(Html.fromHtml(data.results.description));
         } catch (Exception e) {

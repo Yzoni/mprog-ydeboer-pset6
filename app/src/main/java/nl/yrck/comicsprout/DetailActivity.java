@@ -1,5 +1,6 @@
 package nl.yrck.comicsprout;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -99,6 +100,20 @@ public class DetailActivity extends BaseActivity
         int id = item.getItemId();
         if (id == android.R.id.home) {
             finish();
+            return true;
+        }
+        if (id == R.id.action_about) {
+            AboutDialog.get(this);
+            return true;
+        }
+        if (id == R.id.action_search) {
+            if (isOnline()) {
+                Intent intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "No internet",
+                        Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

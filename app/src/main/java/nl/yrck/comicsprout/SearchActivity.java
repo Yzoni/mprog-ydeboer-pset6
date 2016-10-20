@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +128,12 @@ public class SearchActivity extends BaseActivity
     @Override
     public void onLoadFinished(Loader<SearchWrapper> loader, SearchWrapper data) {
         searchResults.clear();
+        if (data == null) {
+            Toast.makeText(this, "No data received",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (data.results.characters != null) {
             searchResults.addAll(data.results.characters);
         }
@@ -139,8 +146,6 @@ public class SearchActivity extends BaseActivity
         if (data.results.teams != null) {
             searchResults.addAll(data.results.teams);
         }
-        System.out.println("LOAD FINISHED");
-        System.out.println(searchResults);
 
         adapter.notifyDataSetChanged();
         hideProgressDialog();

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import nl.yrck.comicsprout.dialogs.AboutDialog;
 import nl.yrck.comicsprout.fragments.CharacterListFragment;
@@ -86,7 +87,7 @@ public class MainActivity extends BaseActivity
 
         int id = item.getItemId();
         if (id == R.id.action_about) {
-            AboutDialog.get(getApplicationContext());
+            AboutDialog.get(this);
             return true;
         }
         if (id == R.id.action_search) {
@@ -94,8 +95,8 @@ public class MainActivity extends BaseActivity
                 Intent intent = new Intent(this, SearchActivity.class);
                 startActivity(intent);
             } else {
-                Toast.makeText(this, "No internet",
-                        Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "No internet",
+                            Toast.LENGTH_SHORT).show();
             }
             return true;
         }

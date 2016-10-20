@@ -20,14 +20,22 @@ public class BaseActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private static ComicVine comicVine;
     private boolean isOnline;
+    static boolean firebaseDatabaseInitialized = false;
 
     public BaseActivity() {
+        if (!firebaseDatabaseInitialized) {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            firebaseDatabaseInitialized = true;
+        }
         setConnectedStatusListner();
     }
 
     public static ComicVine getComicVine() {
         if (comicVine == null) {
-            comicVine = new ComicVine("API_KEY_HERE");
+            ////
+            SET COMICVINE API KEY HERE
+                    ////
+            comicVine = new ComicVine("HERE");
         }
         return comicVine;
     }

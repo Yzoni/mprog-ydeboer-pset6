@@ -10,7 +10,7 @@ import nl.yrck.comicsprout.api.models.small.SmallModelWithApiAndSite;
 public class CharacterResults extends CharacterResultsBasic implements Serializable {
     public List<SmallModelWithApiAndSite> character_enemies;
     public List<SmallModelWithApiAndSite> character_friends;
-    public String creators;
+    public List<SmallModelWithApiAndSite> creators;
     public List<SmallModelWithApiAndSite> issue_credits;
     public List<SmallModelWithApiAndSite> issues_died_in;
     public List<SmallModelWithApiAndSite> movies;
