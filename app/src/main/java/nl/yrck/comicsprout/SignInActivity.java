@@ -21,6 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import nl.yrck.comicsprout.models.User;
 
+// Boilerplate code taken from
+//
+// https://github.com/firebase/quickstart-android/blob/master/database/app/src/main/java/com/google/firebase/quickstart/database/SignInActivity.java
 public class SignInActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "SignInActivity";
