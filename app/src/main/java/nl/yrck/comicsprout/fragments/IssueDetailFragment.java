@@ -52,11 +52,8 @@ public class IssueDetailFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_character, container, false);
-
         description = (TextView) view.findViewById(R.id.url);
-
         return view;
     }
 
@@ -68,8 +65,7 @@ public class IssueDetailFragment extends Fragment
     @Override
     public void onLoadFinished(Loader<IssueWrapper> loader, IssueWrapper data) {
         if (data == null) {
-            Toast.makeText(getActivity(), "No data received",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "No data received", Toast.LENGTH_SHORT).show();
             return;
         }
 

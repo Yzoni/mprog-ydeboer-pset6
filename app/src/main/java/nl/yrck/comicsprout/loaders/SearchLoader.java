@@ -6,6 +6,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -13,7 +14,12 @@ import nl.yrck.comicsprout.BaseActivity;
 import nl.yrck.comicsprout.api.models.search.SearchWrapper;
 import retrofit2.Call;
 
+/**
+ * Loads search results
+ */
 public class SearchLoader extends AsyncTaskLoader<SearchWrapper> {
+
+    private static String TAG = "SEARCH_LOADER";
 
     String searchQuery;
 
@@ -46,7 +52,7 @@ public class SearchLoader extends AsyncTaskLoader<SearchWrapper> {
             );
             return searchWrapperCall.execute().body();
         } catch (IOException e) {
-            System.out.println("Search failed");
+            Log.e(TAG, "Search failed");
         }
         return null;
     }

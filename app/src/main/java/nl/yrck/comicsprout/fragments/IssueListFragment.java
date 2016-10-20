@@ -34,8 +34,7 @@ public class IssueListFragment extends BaseListFragment {
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
         String myUserId = getUid();
-        return databaseReference.child(type).child(myUserId)
-                .orderByChild("name");
+        return databaseReference.child(type).child(myUserId).orderByChild("name");
     }
 
     @Override

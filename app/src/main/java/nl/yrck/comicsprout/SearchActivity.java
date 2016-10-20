@@ -29,6 +29,8 @@ import nl.yrck.comicsprout.loaders.SearchLoader;
 public class SearchActivity extends BaseActivity
         implements LoaderManager.LoaderCallbacks<SearchWrapper> {
 
+    public static String TAG = "SEARCH_ACTIVITY";
+
     ArrayList<BasicResults> searchResults;
     SearchView searchView;
     Boolean savedInstance = false;
@@ -44,10 +46,12 @@ public class SearchActivity extends BaseActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        handleIntent(getIntent());
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Get search intent
+        handleIntent(getIntent());
+
+        // Remember if activity has already been started
         if (savedInstanceState != null) {
             savedInstance = savedInstanceState.getBoolean("SAVED_INSTANCE");
         }
@@ -74,6 +78,11 @@ public class SearchActivity extends BaseActivity
         handleIntent(intent);
     }
 
+    /**
+     * Get the search query text and start loading results
+     *
+     * @param intent
+     */
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String searchQuery = intent.getStringExtra(SearchManager.QUERY);
@@ -99,6 +108,7 @@ public class SearchActivity extends BaseActivity
 
         MenuItem searchMenu = menu.findItem(R.id.action_search);
 
+        // Do not expand the searchview on for example rotate
         if (!savedInstance) {
             MenuItemCompat.expandActionView(searchMenu);
         }
@@ -127,6 +137,7 @@ public class SearchActivity extends BaseActivity
 
     @Override
     public void onLoadFinished(Loader<SearchWrapper> loader, SearchWrapper data) {
+
         searchResults.clear();
         if (data == null) {
             Toast.makeText(this, "No data received",
@@ -134,6 +145,10 @@ public class SearchActivity extends BaseActivity
             return;
         }
 
+        /**
+         * Merge all different types of data to one list using polymorphism to go
+         * back to BasicResults
+         */
         if (data.results.characters != null) {
             searchResults.addAll(data.results.characters);
         }
@@ -153,7 +168,7 @@ public class SearchActivity extends BaseActivity
 
     @Override
     public void onLoaderReset(Loader<SearchWrapper> loader) {
-        Log.d("searchactivty", "loader reset");
+        Log.d(TAG, "search loader reset");
     }
 
 }

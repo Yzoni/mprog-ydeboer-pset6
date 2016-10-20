@@ -29,6 +29,8 @@ import nl.yrck.comicsprout.models.User;
 public class DetailActivity extends BaseActivity
         implements View.OnClickListener {
 
+    public static String TAG = "DETAIL_ACTIVITY";
+
     String detailId;
     String detailTitle;
     String detailType;
@@ -38,7 +40,6 @@ public class DetailActivity extends BaseActivity
     public static final String EXTRA_DETAIL_TYPE = "detail_type";
 
     FloatingActionButton fab;
-    private DatabaseReference savedReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +75,12 @@ public class DetailActivity extends BaseActivity
                 detailFragment = IssueDetailFragment.newInstance(detailId);
                 break;
         }
+
+        // Swap the details fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment, detailFragment).commit();
 
+        // Set the status color and icon on the FAB button depending on the status
         setFabStatus();
     }
 
@@ -111,8 +115,7 @@ public class DetailActivity extends BaseActivity
                 Intent intent = new Intent(this, SearchActivity.class);
                 startActivity(intent);
             } else {
-                Toast.makeText(this, "No internet",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No internet", Toast.LENGTH_SHORT).show();
             }
             return true;
         }
@@ -130,19 +133,16 @@ public class DetailActivity extends BaseActivity
                         User user = dataSnapshot.child("users").child(userId).getValue(User.class);
                         if (user == null) {
                             Toast.makeText(DetailActivity.this,
-                                    "Error: could not fetch user.",
+                                    "Could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             if (dataSnapshot.child(detailType).child(userId).hasChild(detailId)) {
                                 userItemReference.child(detailId).removeValue();
-                                fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorAdd)));
-                                fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add_white_24px));
                             } else {
                                 SavedItem savedItem = new SavedItem(detailId, detailTitle);
                                 userItemReference.child(detailId).setValue(savedItem);
-                                fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorRemove)));
-                                fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_remove_white_24px));
                             }
+                            setFabStatus();
                         }
                     }
 
@@ -166,11 +166,19 @@ public class DetailActivity extends BaseActivity
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             if (dataSnapshot.child(detailType).child(userId).hasChild(detailId)) {
-                                fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorRemove)));
-                                fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_remove_white_24px));
+                                fab.setBackgroundTintList(
+                                        ColorStateList.valueOf(ContextCompat.getColor(
+                                                getApplicationContext(), R.color.colorRemove)));
+                                fab.setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                                getApplicationContext(), R.drawable.ic_remove_white_24px));
                             } else {
-                                fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorAdd)));
-                                fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add_white_24px));
+                                fab.setBackgroundTintList(
+                                        ColorStateList.valueOf(ContextCompat.getColor(
+                                                getApplicationContext(), R.color.colorAdd)));
+                                fab.setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                                getApplicationContext(), R.drawable.ic_add_white_24px));
 
                             }
                         }
@@ -178,7 +186,7 @@ public class DetailActivity extends BaseActivity
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Log.w("sl", "getUser:onCancelled", databaseError.toException());
+                        Log.e(TAG, "E " + databaseError.toException());
                     }
                 });
     }

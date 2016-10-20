@@ -1,6 +1,5 @@
 package nl.yrck.comicsprout.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import com.google.firebase.database.Query;
 public class CharacterListFragment extends BaseListFragment {
 
     private String type = "character";
-    private ListFragmentInteraction onFragmentInteractionListener;
+    private ListFragmentInteraction listFragmentInteraction;
 
     public CharacterListFragment() {}
 
@@ -20,13 +19,13 @@ public class CharacterListFragment extends BaseListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         try {
-            onFragmentInteractionListener = (ListFragmentInteraction) getActivity();
+            listFragmentInteraction = (ListFragmentInteraction) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement ListFragmentInteraction");
         }
 
-        onFragmentInteractionListener.setActionBarTitle("Characters");
+        listFragmentInteraction.setActionBarTitle("Characters");
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -34,8 +33,7 @@ public class CharacterListFragment extends BaseListFragment {
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
         String myUserId = getUid();
-        return databaseReference.child(type).child(myUserId)
-                .orderByChild("name");
+        return databaseReference.child(type).child(myUserId).orderByChild("name");
     }
 
     @Override

@@ -21,6 +21,7 @@ import nl.yrck.comicsprout.loaders.CharacterDetailLoader;
 public class CharacterDetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<CharacterWrapper>
 {
+    private static String TAG = "CHARACTER_DETAIL_FRAG";
 
     String detailId;
 
@@ -82,6 +83,6 @@ public class CharacterDetailFragment extends Fragment
 
     @Override
     public void onLoaderReset(Loader<CharacterWrapper> loader) {
-        Log.d("reset", "loader reset");
+        Log.d(TAG, "loader reset");
     }
 }

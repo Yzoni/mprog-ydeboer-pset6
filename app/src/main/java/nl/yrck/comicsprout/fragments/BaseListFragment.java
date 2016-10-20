@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,14 +18,18 @@ import com.google.firebase.database.Query;
 
 import nl.yrck.comicsprout.DetailActivity;
 import nl.yrck.comicsprout.R;
+import nl.yrck.comicsprout.adapters.SavedAdapter;
 import nl.yrck.comicsprout.models.SavedItem;
-import nl.yrck.comicsprout.viewholders.ListItemViewHolder;
 
+
+/**
+ * This is the base list fragment. All fragments displaying saved data in a list extend from this
+ * class.
+ */
 public abstract class BaseListFragment extends Fragment {
-    private static final String TAG = "PostListFragment";
 
     private DatabaseReference database;
-    private FirebaseRecyclerAdapter<SavedItem, ListItemViewHolder> adapter;
+    private SavedAdapter adapter;
     private RecyclerView recycler;
     private LinearLayoutManager lm;
 
@@ -45,36 +48,45 @@ public abstract class BaseListFragment extends Fragment {
         recycler.setLayoutManager(lm);
 
         Query postsQuery = getQuery(database);
-        adapter = new FirebaseRecyclerAdapter<SavedItem, ListItemViewHolder>(SavedItem.class, R.layout.list_item,
-                ListItemViewHolder.class, postsQuery) {
-            @Override
-            protected void populateViewHolder(final ListItemViewHolder viewHolder, final SavedItem model, final int position) {
-                viewHolder.itemView.setOnClickListener((view) -> {
-                            TextView id = (TextView) view.findViewById(R.id.item_id);
-                            TextView name = (TextView) view.findViewById(R.id.item_name);
-
-                            Bundle bundle = new Bundle();
-                            bundle.putString(DetailActivity.EXTRA_DETAIL_ID, id.getText().toString());
-                            bundle.putString(DetailActivity.EXTRA_DETAIL_TITLE, name.getText().toString());
-                            bundle.putString(DetailActivity.EXTRA_DETAIL_TYPE, getType());
-                            startActivity(new Intent(getActivity(), DetailActivity.class).putExtras(bundle));
-                        }
-                );
-                viewHolder.bindToPost(model);
-            }
-        };
+        adapter = new SavedAdapter(SavedItem.class, R.layout.list_item, postsQuery);
+        adapter.setOnItemClickListener((position, v) -> startDetailActivity(v));
         recycler.setAdapter(adapter);
 
         return rootView;
     }
 
+    private void startDetailActivity(View v) {
+        TextView id = (TextView) v.findViewById(R.id.item_id);
+        TextView name = (TextView) v.findViewById(R.id.item_name);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(DetailActivity.EXTRA_DETAIL_ID, id.getText().toString());
+        bundle.putString(DetailActivity.EXTRA_DETAIL_TITLE, name.getText().toString());
+        bundle.putString(DetailActivity.EXTRA_DETAIL_TYPE, getType());
+        startActivity(new Intent(getActivity(), DetailActivity.class).putExtras(bundle));
+    }
+
+    /**
+     * The query to the database
+     *
+     * @param databaseReference
+     * @return
+     */
     public abstract Query getQuery(DatabaseReference databaseReference);
 
+    /**
+     * The type of data eg character, issue, volume
+     *
+     * @return
+     */
     public abstract String getType();
 
+    /**
+     * Get the current user from fragments
+     *
+     * @return
+     */
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
-
-
 }

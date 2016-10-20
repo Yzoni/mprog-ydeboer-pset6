@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,6 +31,8 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         ListFragmentInteraction {
 
+    private static String TAG = "MAIN_ACTIVITY";
+
     Button authButton;
 
     @Override
@@ -49,10 +52,13 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // Get the top part of the sidebar
         View header = navigationView.getHeaderView(0);
 
         authButton = (Button) header.findViewById(R.id.signin_button);
         TextView textView = (TextView) header.findViewById(R.id.username);
+
+        // Handle sign in and out button clicks
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             authButton.setOnClickListener((v) -> launchSignIn());
@@ -63,7 +69,12 @@ public class MainActivity extends BaseActivity
             authButton.setOnClickListener((v) -> launchSignOut());
         }
 
-        handleFragmentSwap(CharacterListFragment.class);
+        // Sign the user in or load default fragment on app creation
+        if (user == null) {
+            launchSignIn();
+        } else {
+            handleFragmentSwap(CharacterListFragment.class);
+        }
     }
 
     @Override
@@ -104,7 +115,6 @@ public class MainActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -119,12 +129,17 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
+    /**
+     * Swaps a the fragmen in the framelayout with a other fragment class
+     *
+     * @param fragmentClass
+     */
     private void handleFragmentSwap(Class fragmentClass) {
         Fragment fragment = null;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Failed to swap fragment");
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment, fragment).commit();

@@ -2,7 +2,6 @@ package nl.yrck.comicsprout;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,111 +22,109 @@ import nl.yrck.comicsprout.models.User;
 
 // Boilerplate code taken from
 //
-// https://github.com/firebase/quickstart-android/blob/master/database/app/src/main/java/com/google/firebase/quickstart/database/SignInActivity.java
-public class SignInActivity extends BaseActivity implements View.OnClickListener {
+// https://github.com/firebase/quickstart-android/blob/master/database/app/src/main/java/com/
+// google/firebase/quickstart/database/SignInActivity.java
+public class SignInActivity extends BaseActivity {
 
-    private static final String TAG = "SignInActivity";
+    private static final String TAG = "SIGNINACTIVITY";
 
-    private DatabaseReference mDatabase;
-    private FirebaseAuth mAuth;
+    private DatabaseReference database;
+    private FirebaseAuth firebaseAuth;
 
-    private EditText mEmailField;
-    private EditText mPasswordField;
-    private Button mSignInButton;
-    private Button mSignUpButton;
+    private EditText email;
+    private EditText password;
+    private Button siginIn;
+    private Button signUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference();
+        firebaseAuth = FirebaseAuth.getInstance();
 
-        // Views
-        mEmailField = (EditText) findViewById(R.id.field_email);
-        mPasswordField = (EditText) findViewById(R.id.field_password);
-        mSignInButton = (Button) findViewById(R.id.button_sign_in);
-        mSignUpButton = (Button) findViewById(R.id.button_sign_up);
+        email = (EditText) findViewById(R.id.field_email);
+        password = (EditText) findViewById(R.id.field_password);
+        siginIn = (Button) findViewById(R.id.button_sign_in);
+        signUp = (Button) findViewById(R.id.button_sign_up);
 
-        // Click listeners
-        mSignInButton.setOnClickListener(this);
-        mSignUpButton.setOnClickListener(this);
+        siginIn.setOnClickListener((v) -> signIn());
+        signUp.setOnClickListener((v) -> signUp());
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        // Check auth on Activity start
-        if (mAuth.getCurrentUser() != null) {
-            onAuthSuccess(mAuth.getCurrentUser());
+        if (firebaseAuth.getCurrentUser() != null) {
+            onAuthSuccess(firebaseAuth.getCurrentUser());
         }
     }
 
+    /**
+     * Handle sign in
+     */
     private void signIn() {
-        Log.d(TAG, "signIn");
         if (!validateForm()) {
             return;
         }
 
         showProgressDialog();
-        String email = mEmailField.getText().toString();
-        String password = mPasswordField.getText().toString();
+        String email = this.email.getText().toString();
+        String password = this.password.getText().toString();
 
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
-                        hideProgressDialog();
-
-                        if (task.isSuccessful()) {
-                            onAuthSuccess(task.getResult().getUser());
-                        } else {
-                            Toast.makeText(SignInActivity.this, "Sign In Failed",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, (task) -> {
+                    hideProgressDialog();
+                    if (task.isSuccessful()) {
+                        onAuthSuccess(task.getResult().getUser());
+                    } else {
+                        Toast.makeText(SignInActivity.this, "Sign In Failed",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
+    /**
+     * handle sign up
+     */
     private void signUp() {
-        Log.d(TAG, "signUp");
         if (!validateForm()) {
             return;
         }
 
         showProgressDialog();
-        String email = mEmailField.getText().toString();
-        String password = mPasswordField.getText().toString();
+        String email = this.email.getText().toString();
+        String password = this.password.getText().toString();
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUser:onComplete:" + task.isSuccessful());
-                        hideProgressDialog();
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, (task) -> {
+                    hideProgressDialog();
 
-                        if (task.isSuccessful()) {
-                            onAuthSuccess(task.getResult().getUser());
-                        } else {
-                            Toast.makeText(SignInActivity.this, "Sign Up Failed",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                    if (task.isSuccessful()) {
+                        onAuthSuccess(task.getResult().getUser());
+                        startMainActivity();
+                    } else {
+                        Toast.makeText(SignInActivity.this, "Sign Up Failed",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
+    /**
+     * Write the new user to the database
+     *
+     * @param user
+     */
     private void onAuthSuccess(FirebaseUser user) {
         String username = usernameFromEmail(user.getEmail());
 
-        // Write new user
         writeNewUser(user.getUid(), username, user.getEmail());
+    }
 
-        // Go to MainActivity
-        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+    private void startMainActivity() {
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
@@ -141,18 +138,18 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     private boolean validateForm() {
         boolean result = true;
-        if (TextUtils.isEmpty(mEmailField.getText().toString())) {
-            mEmailField.setError("Required");
+        if (TextUtils.isEmpty(email.getText().toString())) {
+            email.setError("Required");
             result = false;
         } else {
-            mEmailField.setError(null);
+            email.setError(null);
         }
 
-        if (TextUtils.isEmpty(mPasswordField.getText().toString())) {
-            mPasswordField.setError("Required");
+        if (TextUtils.isEmpty(password.getText().toString())) {
+            password.setError("Required");
             result = false;
         } else {
-            mPasswordField.setError(null);
+            password.setError(null);
         }
 
         return result;
@@ -161,16 +158,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private void writeNewUser(String userId, String name, String email) {
         User user = new User(name, email);
 
-        mDatabase.child("users").child(userId).setValue(user);
-    }
-
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.button_sign_in) {
-            signIn();
-        } else if (i == R.id.button_sign_up) {
-            signUp();
-        }
+        database.child("users").child(userId).setValue(user);
     }
 }

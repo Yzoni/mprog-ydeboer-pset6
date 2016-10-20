@@ -11,14 +11,14 @@
 
     <LinearLayout
         android:id="@+id/layout_email_password"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/field_email"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center_horizontal"
@@ -28,13 +28,14 @@
 
         <EditText
             android:id="@+id/field_password"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:layout_marginTop="26dp"/>
 
     </LinearLayout>
 
@@ -44,7 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/layout_email_password"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="26dp">
 
         <Button
             android:id="@+id/button_sign_in"
