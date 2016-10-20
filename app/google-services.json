@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "652467608770",
+    "firebase_url": "https://comicsprout-d2e62.firebaseio.com",
+    "project_id": "comicsprout-d2e62",
+    "storage_bucket": "comicsprout-d2e62.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652467608770:android:dfe3a1f20686053e",
+        "android_client_info": {
+          "package_name": "nl.yrck.comicsprout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "652467608770-1fc945nv3gj6rdafmg8s6bgnr6nhujip.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.yrck.comicsprout",
+            "certificate_hash": "394218C34865404E2A7833E35D27B01FEF57C678"
+          }
+        },
+        {
+          "client_id": "652467608770-lg3ibse2o1maa3p97amda1ti9hotkjb4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1f0zWAVcr0Ab-sSN42My5wkHZcpvAQ5A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "652467608770-lg3ibse2o1maa3p97amda1ti9hotkjb4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
