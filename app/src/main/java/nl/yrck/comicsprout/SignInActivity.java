@@ -62,6 +62,10 @@ public class SignInActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
     /**
      * Handle sign in
      */

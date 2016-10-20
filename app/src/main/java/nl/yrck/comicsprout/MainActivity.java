@@ -151,8 +151,9 @@ public class MainActivity extends BaseActivity
     }
     private void launchSignOut() {
         FirebaseAuth.getInstance().signOut();
+        launchSignIn();
+        finish();
     }
-
 
     @Override
     public void setActionBarTitle(String title) {
