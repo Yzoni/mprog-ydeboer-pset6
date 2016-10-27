@@ -1,3 +1,7 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.api;
 
 import nl.yrck.comicsprout.api.services.CharacterService;
@@ -22,7 +26,7 @@ public class ComicVine {
     private boolean enableDebugLogging;
 
     public ComicVine(String apiKey) {
-        this.apiKey = apiKey;
+        ComicVine.apiKey = apiKey;
     }
 
     public String apiKey() {

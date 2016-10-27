@@ -1,3 +1,7 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.fragments;
 
 
@@ -16,15 +20,15 @@ import android.widget.Toast;
 import nl.yrck.comicsprout.DetailActivity;
 import nl.yrck.comicsprout.R;
 import nl.yrck.comicsprout.api.models.IssueWrapper;
-import nl.yrck.comicsprout.loaders.CharacterDetailLoader;
 import nl.yrck.comicsprout.loaders.IssueDetailLoader;
 
 public class IssueDetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<IssueWrapper>
 {
 
-    String detailId;
+    public static String TAG = "ISSUEDETAIL_FRAGMENT";
 
+    String detailId;
     TextView description;
 
     public IssueDetailFragment() {
@@ -65,20 +69,20 @@ public class IssueDetailFragment extends Fragment
     @Override
     public void onLoadFinished(Loader<IssueWrapper> loader, IssueWrapper data) {
         if (data == null) {
-            Toast.makeText(getActivity(), "No data received", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.error_no_data, Toast.LENGTH_SHORT).show();
             return;
         }
 
         try {
             description.setText(Html.fromHtml(data.results.description));
         } catch (Exception e) {
-            System.err.println("Error parsing description to html");
+            Log.d(TAG, "Error parsing description to html");
             description.setText(data.results.description);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<IssueWrapper> loader) {
-        Log.d("reset", "loader reset");
+        Log.d(TAG, "loader reset");
     }
 }

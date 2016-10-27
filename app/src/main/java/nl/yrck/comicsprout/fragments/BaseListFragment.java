@@ -1,3 +1,7 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.fragments;
 
 

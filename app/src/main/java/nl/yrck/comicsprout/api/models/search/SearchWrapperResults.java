@@ -1,3 +1,7 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.api.models.search;
 
 import org.simpleframework.xml.ElementList;

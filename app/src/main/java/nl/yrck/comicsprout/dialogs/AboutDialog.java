@@ -1,3 +1,11 @@
+/*
+ * Yorick de Boer
+ */
+
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.dialogs;
 
 

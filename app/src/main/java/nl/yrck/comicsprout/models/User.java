@@ -1,3 +1,7 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.models;
 
 public class User {

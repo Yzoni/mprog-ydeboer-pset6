@@ -1,8 +1,9 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.models;
 
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SavedItem {
     public String id;

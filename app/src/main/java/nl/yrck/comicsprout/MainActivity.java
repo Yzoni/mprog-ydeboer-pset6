@@ -1,32 +1,38 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 import nl.yrck.comicsprout.dialogs.AboutDialog;
 import nl.yrck.comicsprout.fragments.CharacterListFragment;
 import nl.yrck.comicsprout.fragments.IssueListFragment;
 import nl.yrck.comicsprout.fragments.ListFragmentInteraction;
 
+/**
+ * Main activity includes drawer and manager for saved elements
+ */
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         ListFragmentInteraction {
@@ -62,10 +68,10 @@ public class MainActivity extends BaseActivity
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             authButton.setOnClickListener((v) -> launchSignIn());
-            authButton.setText("SignIn");
+            authButton.setText(R.string.button_sigin);
         } else {
             textView.setText(user.getEmail());
-            authButton.setText("SignOut");
+            authButton.setText(R.string.button_signout);
             authButton.setOnClickListener((v) -> launchSignOut());
         }
 
@@ -106,7 +112,7 @@ public class MainActivity extends BaseActivity
                 Intent intent = new Intent(this, SearchActivity.class);
                 startActivity(intent);
             } else {
-                    Toast.makeText(this, "No internet",
+                Toast.makeText(this, R.string.error_no_internet,
                             Toast.LENGTH_SHORT).show();
             }
             return true;

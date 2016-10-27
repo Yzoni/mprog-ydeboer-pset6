@@ -1,18 +1,17 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.adapters;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
-import nl.yrck.comicsprout.DetailActivity;
 import nl.yrck.comicsprout.R;
-import nl.yrck.comicsprout.fragments.BaseListFragment;
 import nl.yrck.comicsprout.models.SavedItem;
 
 public class SavedAdapter extends FirebaseRecyclerAdapter<SavedItem, SavedAdapter.ListItemViewHolder> {

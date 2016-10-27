@@ -1,6 +1,9 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.api.services;
 
-import nl.yrck.comicsprout.api.models.CharacterWrapper;
 import nl.yrck.comicsprout.api.models.IssueWrapper;
 import retrofit2.Call;
 import retrofit2.http.GET;

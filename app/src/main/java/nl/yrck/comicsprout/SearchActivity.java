@@ -1,3 +1,7 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout;
 
 import android.app.SearchManager;
@@ -19,13 +23,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import nl.yrck.comicsprout.adapters.SearchResultsAdapter;
 import nl.yrck.comicsprout.api.models.BasicResults;
 import nl.yrck.comicsprout.api.models.search.SearchWrapper;
 import nl.yrck.comicsprout.loaders.SearchLoader;
 
+/**
+ * Handles the search for new elements
+ */
 public class SearchActivity extends BaseActivity
         implements LoaderManager.LoaderCallbacks<SearchWrapper> {
 
@@ -121,7 +127,6 @@ public class SearchActivity extends BaseActivity
         TextView type = (TextView) view.findViewById(R.id.item_type);
 
         Bundle bundle = new Bundle();
-        System.out.println(view.getTag());
         bundle.putString(DetailActivity.EXTRA_DETAIL_ID, (String) view.getTag());
         bundle.putString(DetailActivity.EXTRA_DETAIL_TITLE, name.getText().toString());
         bundle.putString(DetailActivity.EXTRA_DETAIL_TYPE, type.getText().toString());

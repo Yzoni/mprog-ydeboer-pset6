@@ -1,8 +1,10 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout;
 
 import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -18,10 +20,10 @@ import nl.yrck.comicsprout.api.ComicVine;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private ProgressDialog progressDialog;
-    private static ComicVine comicVine;
-    private boolean isOnline;
     static boolean firebaseDatabaseInitialized = false;
+    private static ComicVine comicVine;
+    private ProgressDialog progressDialog;
+    private boolean isOnline;
 
     public BaseActivity() {
 
@@ -30,7 +32,7 @@ public class BaseActivity extends AppCompatActivity {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             firebaseDatabaseInitialized = true;
         }
-        setConnectedStatusListner();
+        setConnectedStatusListener();
     }
 
 
@@ -69,7 +71,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    private void setConnectedStatusListner() {
+    private void setConnectedStatusListener() {
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
         connectedRef.addValueEventListener(new ValueEventListener() {
             @Override

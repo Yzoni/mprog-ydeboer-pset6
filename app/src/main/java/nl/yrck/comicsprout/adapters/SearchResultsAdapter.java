@@ -1,3 +1,11 @@
+/*
+ * Yorick de Boer
+ */
+
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.adapters;
 
 
@@ -10,8 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

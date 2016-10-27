@@ -1,3 +1,7 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.fragments;
 
 import android.os.Bundle;
@@ -9,6 +13,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
 public class CharacterListFragment extends BaseListFragment {
+
+    public static String TAG = "CHARACTERLIST_FRAGMENT";
 
     private String type = "character";
     private ListFragmentInteraction listFragmentInteraction;

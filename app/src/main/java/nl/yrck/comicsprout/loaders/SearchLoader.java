@@ -1,11 +1,11 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.loaders;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 
 import java.io.IOException;

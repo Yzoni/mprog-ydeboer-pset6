@@ -1,3 +1,7 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout;
 
 import android.content.Intent;
@@ -26,19 +30,19 @@ import nl.yrck.comicsprout.fragments.IssueDetailFragment;
 import nl.yrck.comicsprout.models.SavedItem;
 import nl.yrck.comicsprout.models.User;
 
+/**
+ * Handles all element details. Contains a fragment for element type specific views.
+ */
 public class DetailActivity extends BaseActivity
         implements View.OnClickListener {
-
-    public static String TAG = "DETAIL_ACTIVITY";
-
-    String detailId;
-    String detailTitle;
-    String detailType;
 
     public static final String EXTRA_DETAIL_ID = "detail_id";
     public static final String EXTRA_DETAIL_TITLE = "detail_title";
     public static final String EXTRA_DETAIL_TYPE = "detail_type";
-
+    public static String TAG = "DETAIL_ACTIVITY";
+    String detailId;
+    String detailTitle;
+    String detailType;
     FloatingActionButton fab;
 
     @Override
@@ -115,13 +119,16 @@ public class DetailActivity extends BaseActivity
                 Intent intent = new Intent(this, SearchActivity.class);
                 startActivity(intent);
             } else {
-                Toast.makeText(this, "No internet", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.error_no_internet), Toast.LENGTH_SHORT).show();
             }
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Save a element to the database
+     */
     private void onSave() {
         final String userId = getUid();
         DatabaseReference userItemReference = FirebaseDatabase.getInstance().getReference()
@@ -132,8 +139,7 @@ public class DetailActivity extends BaseActivity
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User user = dataSnapshot.child("users").child(userId).getValue(User.class);
                         if (user == null) {
-                            Toast.makeText(DetailActivity.this,
-                                    "Could not fetch user.",
+                            Toast.makeText(DetailActivity.this, "Could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             if (dataSnapshot.child(detailType).child(userId).hasChild(detailId)) {
@@ -148,11 +154,14 @@ public class DetailActivity extends BaseActivity
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Log.w("sl", "getUser:onCancelled", databaseError.toException());
+                        Log.e(TAG, "" + databaseError.toException());
                     }
                 });
     }
 
+    /**
+     * Change the Fab icon and color to represent the current save status
+     */
     private void setFabStatus() {
         final String userId = getUid();
         FirebaseDatabase.getInstance().getReference().addListenerForSingleValueEvent(
@@ -162,10 +171,11 @@ public class DetailActivity extends BaseActivity
                         User user = dataSnapshot.child("users").child(userId).getValue(User.class);
                         if (user == null) {
                             Toast.makeText(DetailActivity.this,
-                                    "Error: could not fetch user.",
+                                    R.string.error_fetching_user,
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             if (dataSnapshot.child(detailType).child(userId).hasChild(detailId)) {
+                                // Element is saved so set fab to represent "remove"
                                 fab.setBackgroundTintList(
                                         ColorStateList.valueOf(ContextCompat.getColor(
                                                 getApplicationContext(), R.color.colorRemove)));
@@ -173,6 +183,7 @@ public class DetailActivity extends BaseActivity
                                         ContextCompat.getDrawable(
                                                 getApplicationContext(), R.drawable.ic_remove_white_24px));
                             } else {
+                                // Element is not saved so set the fab to represen "add"
                                 fab.setBackgroundTintList(
                                         ColorStateList.valueOf(ContextCompat.getColor(
                                                 getApplicationContext(), R.color.colorAdd)));

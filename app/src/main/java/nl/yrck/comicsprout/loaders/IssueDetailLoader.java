@@ -1,3 +1,7 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.loaders;
 
 import android.content.Context;
@@ -7,7 +11,6 @@ import android.util.Log;
 import java.io.IOException;
 
 import nl.yrck.comicsprout.BaseActivity;
-import nl.yrck.comicsprout.api.models.CharacterWrapper;
 import nl.yrck.comicsprout.api.models.IssueWrapper;
 import retrofit2.Call;
 

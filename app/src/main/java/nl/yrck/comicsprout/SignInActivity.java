@@ -1,18 +1,16 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -20,21 +18,24 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import nl.yrck.comicsprout.models.User;
 
-// Boilerplate code taken from
-//
-// https://github.com/firebase/quickstart-android/blob/master/database/app/src/main/java/com/
-// google/firebase/quickstart/database/SignInActivity.java
+
+/**
+ * Handles signin and signup
+ * <p>
+ * Boilerplate code taken from
+ * <p>
+ * https://github.com/firebase/quickstart-android/blob/master/database/app/src/main/java/com/
+ * google/firebase/quickstart/database/SignInActivity.java
+ */
 public class SignInActivity extends BaseActivity {
 
-    private static final String TAG = "SIGNINACTIVITY";
+    private static final String TAG = "SIGNIN_ACTIVITY";
 
     private DatabaseReference database;
     private FirebaseAuth firebaseAuth;
 
     private EditText email;
     private EditText password;
-    private Button siginIn;
-    private Button signUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,8 @@ public class SignInActivity extends BaseActivity {
 
         email = (EditText) findViewById(R.id.field_email);
         password = (EditText) findViewById(R.id.field_password);
-        siginIn = (Button) findViewById(R.id.button_sign_in);
-        signUp = (Button) findViewById(R.id.button_sign_up);
+        Button siginIn = (Button) findViewById(R.id.button_sign_in);
+        Button signUp = (Button) findViewById(R.id.button_sign_up);
 
         siginIn.setOnClickListener((v) -> signIn());
         signUp.setOnClickListener((v) -> signUp());
@@ -64,6 +65,7 @@ public class SignInActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        // Disallow back presses
     }
 
     /**
@@ -84,7 +86,7 @@ public class SignInActivity extends BaseActivity {
                     if (task.isSuccessful()) {
                         onAuthSuccess(task.getResult().getUser());
                     } else {
-                        Toast.makeText(SignInActivity.this, "Sign In Failed",
+                        Toast.makeText(SignInActivity.this, R.string.sign_in_failed,
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -110,7 +112,7 @@ public class SignInActivity extends BaseActivity {
                         onAuthSuccess(task.getResult().getUser());
                         startMainActivity();
                     } else {
-                        Toast.makeText(SignInActivity.this, "Sign Up Failed",
+                        Toast.makeText(SignInActivity.this, R.string.sign_up_failed,
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -143,14 +145,14 @@ public class SignInActivity extends BaseActivity {
     private boolean validateForm() {
         boolean result = true;
         if (TextUtils.isEmpty(email.getText().toString())) {
-            email.setError("Required");
+            email.setError(getString(R.string.signup_error_required));
             result = false;
         } else {
             email.setError(null);
         }
 
         if (TextUtils.isEmpty(password.getText().toString())) {
-            password.setError("Required");
+            password.setError(getString(R.string.signup_error_required));
             result = false;
         } else {
             password.setError(null);

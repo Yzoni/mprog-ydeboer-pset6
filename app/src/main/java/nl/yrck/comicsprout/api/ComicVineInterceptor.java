@@ -1,12 +1,16 @@
+/*
+ * Yorick de Boer
+ */
+
 package nl.yrck.comicsprout.api;
 
+
+import java.io.IOException;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import java.io.IOException;
 
 public class ComicVineInterceptor implements Interceptor {
 
@@ -14,10 +18,6 @@ public class ComicVineInterceptor implements Interceptor {
 
     public ComicVineInterceptor(ComicVine comicVine) {
         this.comicVine = comicVine;
-    }
-
-    public Response intercept(Chain chain) throws IOException {
-        return handleIntercept(chain);
     }
 
     public static Response handleIntercept(Chain chain) throws IOException {
@@ -33,5 +33,9 @@ public class ComicVineInterceptor implements Interceptor {
         builder.url(currentUrl);
 
         return chain.proceed(builder.build());
+    }
+
+    public Response intercept(Chain chain) throws IOException {
+        return handleIntercept(chain);
     }
 }
